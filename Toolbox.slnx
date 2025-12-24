@@ -2,5 +2,5 @@
   <Configurations>
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="ToolboxBase/ToolboxBase.vcxproj" />
+  <Project Path="ToolboxBase/ToolboxBase.vcxproj" Id="5f69e612-6ed6-4513-bcc8-05084645e854" />
 </Solution>

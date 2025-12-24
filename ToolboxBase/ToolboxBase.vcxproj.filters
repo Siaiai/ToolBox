@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ToolBoxBase">
+      <UniqueIdentifier>{74069d07-c2ef-48cd-ad1f-cead29e4b550}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SourceFiles\ToolBoxBase\ToolboxBase.cpp">
+      <Filter>ToolBoxBase</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\main\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SourceFiles\ToolBoxBase\ToolboxBase.h">
+      <Filter>ToolBoxBase</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="SourceFiles\ToolBoxBase\ToolboxBase.qrc">
+      <Filter>ToolBoxBase</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="SourceFiles\ToolBoxBase\ToolboxBase.ui">
+      <Filter>ToolBoxBase</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>

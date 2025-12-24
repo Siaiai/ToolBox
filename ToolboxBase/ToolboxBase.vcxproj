@@ -10,6 +10,19 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SourceFiles\main\main.cpp" />
+    <ClCompile Include="SourceFiles\ToolBoxBase\ToolboxBase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SourceFiles\ToolBoxBase\ToolboxBase.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="SourceFiles\ToolBoxBase\ToolboxBase.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="SourceFiles\ToolBoxBase\ToolboxBase.ui" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F69E612-6ED6-4513-BCC8-05084645E854}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
@@ -63,6 +76,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SourceFiles\ToolBoxBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -91,13 +109,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <QtRcc Include="ToolboxBase.qrc" />
-    <QtUic Include="ToolboxBase.ui" />
-    <QtMoc Include="ToolboxBase.h" />
-    <ClCompile Include="ToolboxBase.cpp" />
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
