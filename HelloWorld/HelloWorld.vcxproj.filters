@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HelloWorld">
+      <UniqueIdentifier>{703353c4-edf2-40f4-adc4-9253e91497aa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SourceFiles\HelloWorld\HelloWorld.cpp">
+      <Filter>HelloWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SourceFiles\common\PluginInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="SourceFiles\HelloWorld\HelloWorld.qrc">
+      <Filter>HelloWorld</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="SourceFiles\HelloWorld\HelloWorld.ui">
+      <Filter>HelloWorld</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="SourceFiles\HelloWorld\HelloWorld.h">
+      <Filter>HelloWorld</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>
