@@ -7,35 +7,40 @@
 *.*#
 *.orig
 *.rej
-core
-!core/
-tags
+core            # Linux 核心转储文件
+!core/          # 排除名为 core 的目录（避免误忽略合法目录）
+tags            # 代码标签文件（本地生成，无需共享）
 
 # 1.2 系统自动生成文件（不同系统的冗余文件）
-.DS_Store       # Mac 系统：文件夹属性文件
-.directory      # Linux 系统：桌面配置文件
-Thumbs.db       # Windows 系统：缩略图缓存
-Desktop.ini     # Windows 系统：文件夹配置文件
+.DS_Store       # Mac：文件夹属性文件
+.DS_Store?      # Mac：隐藏的 DS_Store 变体
+._*             # Mac：自动生成的隐藏文件（资源分支）
+.directory      # Linux：桌面配置文件
+Thumbs.db       # Windows：缩略图缓存
+Thumbs.db:encryptable # Windows：加密缩略图缓存
+Desktop.ini     # Windows：文件夹配置文件
+$RECYCLE.BIN/   # Windows：回收站目录
 
 # ==============================================================================
 # 2. 编辑器/IDE 通用配置（非项目专属的编辑器缓存）
 # ==============================================================================
 # 2.1 VSCode
-.vscode/
-*.code-workspace
+.vscode/        # VSCode 本地配置（包含插件、调试配置等）
+*.code-workspace # VSCode 工作区文件（本地个性化）
 
 # 2.2 IntelliJ IDEA/CLion（Qt Creator 之外的 C++ IDE）
-.idea/
-*.iml
-*.iws
-*.ipr
+.idea/          # IDEA/CLion 项目配置目录
+*.iml           # IDEA 模块文件
+*.iws           # IDEA 工作区状态文件
+*.ipr           # IDEA 项目文件
 
 # 2.3 终端编辑器
 .*.swp          # Vim：临时交换文件
+*.swp           # Vim：交换文件（变体）
 *.flc           # Xemacs：临时文件
 
 # 2.4 通用自动保存文件
-*.autosave
+*.autosave      # 各类编辑器自动保存文件
 
 # ==============================================================================
 # 3. C++ 编译核心产物（所有 C++ 项目通用的编译中间件/库）
@@ -56,11 +61,13 @@ Desktop.ini     # Windows 系统：文件夹配置文件
 *.dll
 *.dylib
 
-# 3.3 编译产物标识文件
+# 3.3 编译产物标识/辅助文件
 *.debug
 Makefile*
 *.prl
 *.app
+*.map           # C++ 链接器生成的映射文件（新增：编译产物，无需共享）
+*.sym           # C++ 符号文件（新增：编译产物，无需共享）
 
 # ==============================================================================
 # 4. Qt 框架专属忽略（Qt 开发的核心生成文件/配置）
@@ -85,12 +92,14 @@ object_script.*.Debug
 *.pro.user.*
 *.qbs.user
 *.qbs.user.*
-CMakeLists.txt.user*  # Qt Creator 关联的 CMake 配置
-compile_commands.json  # QtCreator 4.8+ 编译数据库
+CMakeLists.txt.user*  # Qt Creator 关联的 CMake 本地配置（核心 CMakeLists.txt 需保留）
+compile_commands.json  # QtCreator 4.8+ 编译数据库（本地生成，无需共享）
 *creator.user*         # Qt Creator 本地用户配置
+*.qmlproject.user      # Qt Quick 项目本地用户配置
+*.qmlproject.user.*    # Qt Quick 项目本地用户配置变体
 
 # 4.3 Qt 资源/输出文件
-*.qm            # Qt 翻译文件（lrelease 生成）
+*.qm            # Qt 翻译文件（lrelease 生成，.ts 源文件需保留）
 target_wrapper.* # Qt 单元测试包装器
 
 # 4.4 Qt 生成的目录（编译过程中创建的临时目录）
@@ -106,7 +115,8 @@ target_wrapper.* # Qt 单元测试包装器
 # 5. Visual Studio 专属忽略（VS + Qt 项目的 VS 侧生成文件）
 # ==============================================================================
 # 5.1 VS 核心缓存目录（解决 Git 权限错误的关键项）
-.vs/
+.vs/            # VS 本地缓存/配置目录（核心忽略项）
+.vcpkg/         # 新增：VS vcpkg 包管理本地配置目录
 
 # 5.2 VS 项目配置文件（用户个性化配置/解决方案配置）
 *.suo
@@ -115,7 +125,7 @@ target_wrapper.* # Qt 单元测试包装器
 *.sln.docstates
 *vcproj.*.*.user
 *.vcxproj.user
-*.vcxproj.filters
+# *.vcxproj.filters  # 重要：已注释！该文件是项目级文件分组配置，需提交到 Git 仓库
 
 # 5.3 VS 编译中间文件（PDB 调试库、索引文件等）
 *.ib_pdb_index
@@ -130,7 +140,7 @@ target_wrapper.* # Qt 单元测试包装器
 
 # 5.4 VS + Qt 插件相关文件
 qtcdebugger*    # VS 中 Qt 调试器临时文件
-QtMsBuild/      # VS 中 Qt 插件的构建配置目录
+QtMsBuild/      # VS 中 Qt 插件的构建配置目录（本地生成，默认忽略）
 
 # 5.5 VS 编译输出目录（二进制产物目录，核心忽略项）
 Debug/
@@ -142,8 +152,8 @@ bin/
 obj/
 
 # 5.6 VS 资源/日志文件
-*.res
-*.rc
+*.res           # VS 编译生成的资源二进制文件（非源文件，忽略）
+# *.rc  # 注：.rc 是 VS 资源源文件，需保留，已注释；若为生成的 rc 文件可取消注释
 *.manifest
 *.log
 *.tlog
@@ -157,6 +167,9 @@ obj/
 
 # 6.2 Python 字节码（若项目包含 Python 脚本）
 *.pyc
+__pycache__/    # 新增：Python 字节码目录
 
 # 6.3 二进制可执行文件（所有平台的可执行程序）
 *.exe
+*.exe.manifest  # 新增：可执行文件的清单文件（生成产物）
+/.vs/Toolbox.slnx
