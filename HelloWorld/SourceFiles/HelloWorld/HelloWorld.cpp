@@ -15,7 +15,7 @@ HelloWorld::~HelloWorld()
 // 返回插件名称
 QString HelloWorldPlugin::pluginName() const
 {
-    return "HelloWorld插件（QWidget版）";
+    return "HelloWorld插件";
 }
 
 // 返回插件描述
