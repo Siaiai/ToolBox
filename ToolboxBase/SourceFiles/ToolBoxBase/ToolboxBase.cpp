@@ -10,17 +10,17 @@ ToolboxBase::ToolboxBase(QWidget* parent)
 
     // 初始化TreeView模型
     m_pluginModel->setHorizontalHeaderLabels({ u8"插件列表" });
-    ui.treeView->setModel(m_pluginModel);
+    ui.treeViewl_Plugins->setModel(m_pluginModel);
     // 隐藏TreeView的根节点（只显示插件项）
-    ui.treeView->setRootIsDecorated(false);
+    ui.treeViewl_Plugins->setRootIsDecorated(false);
 
     // 绑定按钮点击事件（选择路径）
-    connect(ui.pushButton, &QPushButton::clicked, this, &ToolboxBase::onSelectPathClicked);
+    connect(ui.pushButton_PluginDir, &QPushButton::clicked, this, &ToolboxBase::onSelectPathClicked);
     // 绑定TreeView点击事件（加载插件）
-    connect(ui.treeView, &QTreeView::clicked, this, &ToolboxBase::onPluginItemClicked);
+    connect(ui.treeViewl_Plugins, &QTreeView::clicked, this, &ToolboxBase::onPluginItemClicked);
 
     // 初始化LineEdit（默认路径为空）
-    ui.lineEdit->setPlaceholderText(u8"请选择插件所在路径");
+    ui.lineEdit_PluginDir->setPlaceholderText(u8"请选择插件所在路径");
 }
 
 ToolboxBase::~ToolboxBase()
@@ -39,7 +39,7 @@ void ToolboxBase::onSelectPathClicked()
     QString selectPath = QFileDialog::getExistingDirectory(
         this,
         u8"选择插件路径",
-        ui.lineEdit->text().isEmpty() ? QDir::currentPath() : ui.lineEdit->text()
+        ui.lineEdit_PluginDir->text().isEmpty() ? QDir::currentPath() : ui.lineEdit_PluginDir->text()
     );
 
     if (selectPath.isEmpty()) {
@@ -47,7 +47,7 @@ void ToolboxBase::onSelectPathClicked()
     }
 
     // 更新LineEdit显示选中的路径
-    ui.lineEdit->setText(selectPath);
+    ui.lineEdit_PluginDir->setText(selectPath);
     // 扫描该路径下的插件
     scanPlugins(selectPath);
 }
@@ -60,19 +60,18 @@ void ToolboxBase::scanPlugins(const QString& path)
     m_pluginModel->setHorizontalHeaderLabels({ u8"插件列表" });
 
     QDir pluginDir(path);
-    // 只筛选DLL文件（先实现DLL插件，EXE后续扩展）
+    // 只筛选DLL文件
     QStringList filter;
     filter << "*.dll";
     QFileInfoList fileList = pluginDir.entryInfoList(filter, QDir::Files);
 
     for (const QFileInfo& fileInfo : fileList) {
         QString pluginPath = fileInfo.absoluteFilePath();
-        // 尝试加载插件
+        // 直接加载插件，无需检查json文件
         PluginInterface* plugin = loadPlugin(pluginPath);
         if (plugin) {
-            // 插件加载成功，添加到TreeView
+            // 插件加载成功，通过接口获取名称
             QStandardItem* item = new QStandardItem(plugin->pluginName());
-            // 存储插件路径到Item的Data中，方便后续加载
             item->setData(pluginPath, Qt::UserRole);
             m_pluginModel->appendRow(item);
             qDebug() << "加载插件成功：" << plugin->pluginName();
@@ -141,12 +140,12 @@ void ToolboxBase::onPluginItemClicked(const QModelIndex& index)
     }
 
     // 创建插件UI组件
-    QWidget* pluginWidget = plugin->createPluginWidget(ui.tabWidget);
+    QWidget* pluginWidget = plugin->createPluginWidget(ui.tabWidget_PluginUI);
     if (!pluginWidget) {
         return;
     }
 
     // 在TabWidget中新建标签页，展示插件UI
-    int tabIndex = ui.tabWidget->addTab(pluginWidget, plugin->pluginName());
-    ui.tabWidget->setCurrentIndex(tabIndex);
+    int tabIndex = ui.tabWidget_PluginUI->addTab(pluginWidget, plugin->pluginName());
+    ui.tabWidget_PluginUI->setCurrentIndex(tabIndex);
 }
