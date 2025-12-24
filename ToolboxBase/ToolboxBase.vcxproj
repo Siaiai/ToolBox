@@ -23,6 +23,9 @@
   <ItemGroup>
     <QtUic Include="SourceFiles\ToolBoxBase\ToolboxBase.ui" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SourceFiles\common\PluginInterface.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5F69E612-6ED6-4513-BCC8-05084645E854}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
@@ -78,7 +81,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)\SourceFiles\ToolBoxBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SourceFiles;$(ProjectDir)\SourceFiles\ToolBoxBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

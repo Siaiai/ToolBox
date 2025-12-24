@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UI version="4.0" >
+<ui version="4.0">
  <class>ToolboxBaseClass</class>
- <widget class="QMainWindow" name="ToolboxBaseClass" >
-  <property name="objectName" >
-   <string notr="true">ToolboxBaseClass</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QMainWindow" name="ToolboxBaseClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>712</width>
+    <height>433</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>ToolboxBase</string>
-  </property>  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout__Plugins">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_Plugins">
+        <item>
+         <widget class="QLabel" name="label_PluginDir">
+          <property name="text">
+           <string>插件路径:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_PluginDir"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_PluginDir">
+          <property name="text">
+           <string>修改路径</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTreeView" name="treeViewl_Plugins"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget_PluginUI"/>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="ToolboxBase.qrc"/>
+  <include location="ToolboxBase.qrc"/>
  </resources>
  <connections/>
-</UI>
+</ui>
