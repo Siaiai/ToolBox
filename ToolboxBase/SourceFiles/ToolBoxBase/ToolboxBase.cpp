@@ -1,6 +1,8 @@
 #include "ToolboxBase.h"
 #include <QDebug>
 #include <QStandardItem>
+#include <QFileDialog>
+#include <QPluginLoader>
 
 ToolboxBase::ToolboxBase(QWidget* parent)
     : QMainWindow(parent)
@@ -8,16 +10,26 @@ ToolboxBase::ToolboxBase(QWidget* parent)
 {
     ui.setupUi(this);
 
+    // ========== 新增：路径输入框设置为只读（不可修改） ==========
+    ui.lineEdit_PluginDir->setReadOnly(true);
+    // 可选：设置样式，提示用户不可编辑
+    ui.lineEdit_PluginDir->setStyleSheet("QLineEdit:read-only { background-color: #F0F0F0; }");
+
     // 初始化TreeView模型
     m_pluginModel->setHorizontalHeaderLabels({ u8"插件列表" });
     ui.treeViewl_Plugins->setModel(m_pluginModel);
     // 隐藏TreeView的根节点（只显示插件项）
     ui.treeViewl_Plugins->setRootIsDecorated(false);
 
+    // ========== 新增：TabWidget开启关闭按钮 ==========
+    ui.tabWidget_PluginUI->setTabsClosable(true); // 显示关闭叉号
+    // 绑定Tab关闭信号到自定义槽函数
+    connect(ui.tabWidget_PluginUI, &QTabWidget::tabCloseRequested, this, &ToolboxBase::onTabCloseRequested);
+
     // 绑定按钮点击事件（选择路径）
     connect(ui.pushButton_PluginDir, &QPushButton::clicked, this, &ToolboxBase::onSelectPathClicked);
     // 绑定TreeView点击事件（加载插件）
-    connect(ui.treeViewl_Plugins, &QTreeView::clicked, this, &ToolboxBase::onPluginItemClicked);
+    connect(ui.treeViewl_Plugins, &QTreeView::doubleClicked, this, &ToolboxBase::onPluginItemClicked);
 
     // 初始化LineEdit（默认路径为空）
     ui.lineEdit_PluginDir->setPlaceholderText(u8"请选择插件所在路径");
@@ -30,6 +42,13 @@ ToolboxBase::~ToolboxBase()
         loader->unload();
         delete loader;
     }
+
+    // ========== 新增：释放Tab中所有插件UI资源 ==========
+    while (ui.tabWidget_PluginUI->count() > 0) {
+        QWidget* widget = ui.tabWidget_PluginUI->widget(0);
+        ui.tabWidget_PluginUI->removeTab(0);
+        delete widget;
+    }
 }
 
 // 路径选择按钮点击事件
@@ -38,7 +57,7 @@ void ToolboxBase::onSelectPathClicked()
     // 弹出文件夹选择对话框
     QString selectPath = QFileDialog::getExistingDirectory(
         this,
-        u8"选择插件路径",
+        "选择目录",
         ui.lineEdit_PluginDir->text().isEmpty() ? QDir::currentPath() : ui.lineEdit_PluginDir->text()
     );
 
@@ -72,6 +91,8 @@ void ToolboxBase::scanPlugins(const QString& path)
         if (plugin) {
             // 插件加载成功，通过接口获取名称
             QStandardItem* item = new QStandardItem(plugin->pluginName());
+            // ========== 新增：插件名称不可编辑 ==========
+            item->setEditable(false); // 禁止修改插件名称
             item->setData(pluginPath, Qt::UserRole);
             m_pluginModel->appendRow(item);
             qDebug() << "加载插件成功：" << plugin->pluginName();
@@ -84,6 +105,8 @@ void ToolboxBase::scanPlugins(const QString& path)
     if (m_pluginModel->rowCount() == 0) {
         QStandardItem* emptyItem = new QStandardItem(u8"当前路径无有效插件");
         emptyItem->setEnabled(false);
+        // ========== 新增：空提示项也不可编辑 ==========
+        emptyItem->setEditable(false);
         m_pluginModel->appendRow(emptyItem);
     }
 }
@@ -148,4 +171,21 @@ void ToolboxBase::onPluginItemClicked(const QModelIndex& index)
     // 在TabWidget中新建标签页，展示插件UI
     int tabIndex = ui.tabWidget_PluginUI->addTab(pluginWidget, plugin->pluginName());
     ui.tabWidget_PluginUI->setCurrentIndex(tabIndex);
+}
+
+// ========== 新增：Tab关闭事件处理函数 ==========
+void ToolboxBase::onTabCloseRequested(int index)
+{
+    // 1. 获取要关闭的Tab对应的Widget
+    QWidget* widget = ui.tabWidget_PluginUI->widget(index);
+    if (widget) {
+        // 2. 移除Tab（先移除再删除，避免UI异常）
+        ui.tabWidget_PluginUI->removeTab(index);
+        // 3. 释放Widget资源（插件UI）
+        delete widget;
+        qDebug() << "关闭插件标签页，索引：" << index;
+    }
+
+    // 注意：插件DLL不卸载（保留加载器缓存，方便再次打开插件）
+    // 如果需要关闭Tab时卸载DLL，可添加逻辑：根据插件名称找到对应的loader，调用unload()
 }

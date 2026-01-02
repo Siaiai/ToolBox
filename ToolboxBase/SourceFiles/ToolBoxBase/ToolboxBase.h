@@ -3,8 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include <QStandardItemModel>
 #include <QPluginLoader>
-#include <QDir>
-#include <QFileDialog>
 #include <QMap>
 #include "ui_ToolboxBase.h"
 #include "common/PluginInterface.h"
@@ -22,6 +20,8 @@ private slots:
     void onSelectPathClicked();
     // TreeView点击插件项事件
     void onPluginItemClicked(const QModelIndex& index);
+    // ========== 新增：Tab关闭事件 ==========
+    void onTabCloseRequested(int index);
 
 private:
     Ui::ToolboxBaseClass ui;

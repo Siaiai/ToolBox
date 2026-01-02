@@ -6,10 +6,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceFiles\main\main.cpp" />
     <ClCompile Include="SourceFiles\ToolBoxBase\ToolboxBase.cpp">
       <Filter>ToolBoxBase</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SourceFiles\ToolBoxBase\ToolboxBase.h">
@@ -25,5 +25,8 @@
     <QtUic Include="SourceFiles\ToolBoxBase\ToolboxBase.ui">
       <Filter>ToolBoxBase</Filter>
     </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SourceFiles\common\PluginInterface.h" />
   </ItemGroup>
 </Project>

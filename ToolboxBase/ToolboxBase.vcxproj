@@ -12,7 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceFiles\main\main.cpp" />
-    <ClCompile Include="SourceFiles\ToolBoxBase\ToolboxBase.cpp" />
+    <ClCompile Include="SourceFiles\ToolBoxBase\ToolboxBase.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SourceFiles\ToolBoxBase\ToolboxBase.h" />
