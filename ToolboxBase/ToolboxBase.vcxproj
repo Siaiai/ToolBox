@@ -86,7 +86,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)\SourceFiles;$(ProjectDir)\SourceFiles\ToolBoxBase;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\SourceFiles;$(ProjectDir)\SourceFiles\common;$(ProjectDir)\SourceFiles\main;$(ProjectDir)\SourceFiles\ToolBoxBase</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\SourceFiles;$(ProjectDir)\SourceFiles\common;$(ProjectDir)\SourceFiles\main;$(ProjectDir)\SourceFiles\ToolBoxBase</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
